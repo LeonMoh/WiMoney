@@ -25,8 +25,7 @@ import java.util.Map;
 
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
-
-
+import timber.log.Timber;
 
 public class MerchantLogin extends BaseActivity implements MyLoadingButton.MyLoadingButtonClick {
 
@@ -36,6 +35,7 @@ public class MerchantLogin extends BaseActivity implements MyLoadingButton.MyLoa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_login);
+
         Button back = findViewById(R.id.back);
         back.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -43,17 +43,17 @@ public class MerchantLogin extends BaseActivity implements MyLoadingButton.MyLoa
             finish();
         });
 
-        MyLoadingButton register = findViewById(R.id.register);
-        register.setMyButtonClickListener(() -> {
-            Intent intent = new Intent(this, RegistrationActivity.class);
-            startActivity(intent);
-        });
-
         EditText email = findViewById(R.id.email);
         email.setText(getEmail());
 
         myLoadingButton = findViewById(R.id.login_button);
         myLoadingButton.setMyButtonClickListener(this); // Set MyLoadingButton click listener
+
+        MyLoadingButton signup = findViewById(R.id.register);
+        signup.setMyButtonClickListener(() -> {
+            Intent intent = new Intent(this, RegistrationActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -83,12 +83,9 @@ public class MerchantLogin extends BaseActivity implements MyLoadingButton.MyLoa
             myLoadingButton.showLoadingButton();
             saveEmail(e);
             login(e, p);
-
         } else
             myLoadingButton.showNormalButton();
     }
-
-
     private void login(String email, String password) {
         HashMap<String, String> params = new HashMap<>();
         params.put("email", email);
@@ -98,29 +95,23 @@ public class MerchantLogin extends BaseActivity implements MyLoadingButton.MyLoa
             @Override
             public void onResponse(JSONObject response) {
                 closeLoadingPopup();
-                Log.e("ErrdResponce", response.toString());
+                Log.d("CheckBalance Response", response.toString());
                 try {
                     Hawk.put("access_token", response.getString("token"));
                     Toast.makeText(getApplicationContext(), response.getString("msg"), Toast.LENGTH_SHORT).show();
-                    Log.e("ERRdHAWHRes", response.toString());
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.e("ERRdException", e.toString());
-
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 closeLoadingPopup();
-
                 String statusCode = String.valueOf(error.networkResponse.statusCode);
-                Log.e("ErrdStatCode", statusCode.toString());
-
                 String body;
                 //get response body and parse with appropriate encoding
                 if (error.networkResponse.data != null) {
@@ -128,8 +119,6 @@ public class MerchantLogin extends BaseActivity implements MyLoadingButton.MyLoa
                         body = new String(error.networkResponse.data, "UTF-8");
                         JSONObject response = new JSONObject(body);
                         body = response.getString("message");
-                        Log.e("ERRdNetResponce", body.toString());
-
                         toast(body);
                     } catch (UnsupportedEncodingException | JSONException e) {
                         e.printStackTrace();
@@ -145,11 +134,51 @@ public class MerchantLogin extends BaseActivity implements MyLoadingButton.MyLoa
             }
         };
 
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(5*DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, 0));
 
         NetworkRequest.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
+    private void login_old(String email, String password) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("password", password);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getString(R.string.login), new JSONObject(params), response -> {
+            try {
+                Timber.e(response.toString());
+                if (response.getString("status").equals("error")) {
+                    Toast.makeText(this, response.getString("msg"), Toast.LENGTH_SHORT).show();
+                    myLoadingButton.showNormalButton();
+                } else {
+                    Hawk.put("access_token", response.getString("token"));
+                    Toast.makeText(this, response.getString("msg"), Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+                myLoadingButton.showNormalButton();
+            }
+
+        }, error -> {
+            myLoadingButton.showNormalButton();
+            Log.d("response", error.toString());
+            if (error.networkResponse != null && error.networkResponse.statusCode == 401)
+                Toast.makeText(this, "Authentication Error. Invalid password or email", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(0, 0, 0));
+//        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        NetworkRequest.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
 
     private void saveEmail(String email) {
         Hawk.put("merchant_email", email);

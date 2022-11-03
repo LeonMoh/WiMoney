@@ -9,6 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -36,6 +37,8 @@ import java.util.Locale;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import timber.log.Timber;
+
 public class BaseActivity extends AppCompatActivity {
 
     private PopupWindow popupWindow;
@@ -60,10 +63,13 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        Timber.plant(new Timber.DebugTree());
 
         Hawk.init(this).build();
 
         showFullscreen();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     @Override
@@ -109,9 +115,10 @@ public class BaseActivity extends AppCompatActivity {
         popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
     }
 
-    public void closeLoadingPopup() {
+    public Runnable closeLoadingPopup() {
         if (popupWindow != null && popupWindow.isShowing())
             popupWindow.dismiss();
+        return null;
     }
 
     public void printReceipt(String voucher, String trxnId, double total, double balance) {
@@ -174,6 +181,42 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void printSettlement(JSONArray jsonArray, double total) {
+        ArrayList<PrintItemObj> itemObjs = new ArrayList<>();
+        itemObjs.add(new PrintItemObj("Daily Settlement", 24, true, PrintItemObj.ALIGN.CENTER));
+        itemObjs.add(new PrintItemObj("", 18, true, PrintItemObj.ALIGN.LEFT));
+        itemObjs.add(new PrintItemObj("Date: " + getDate() + " " + getTime(), 18, true, PrintItemObj.ALIGN.LEFT));
+        itemObjs.add(new PrintItemObj("# Transactions: " + Integer.toString(jsonArray.length()), 12, true, PrintItemObj.ALIGN.LEFT));
+        itemObjs.add(new PrintItemObj("Total: $" + String.format("%.2f", total), 18, true, PrintItemObj.ALIGN.LEFT));
+        itemObjs.add(new PrintItemObj("", 18, true, PrintItemObj.ALIGN.LEFT));
+        itemObjs.add(new PrintItemObj("Txn ID" + "              Amount", 14, true, PrintItemObj.ALIGN.LEFT));
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                itemObjs.add(new PrintItemObj(jsonObject.getString("transaction_id") + "        $" + String.format("%.2f", jsonObject.getDouble("amount")), 10, true, PrintItemObj.ALIGN.LEFT));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        itemObjs.add(new PrintItemObj("\n", 18, true, PrintItemObj.ALIGN.LEFT));
+
+        try {
+            printerDev.printText(itemObjs, new AidlPrinterListener.Stub() {
+                @Override
+                public void onError(int i) throws RemoteException {
+
+                }
+
+                @Override
+                public void onPrintFinish() throws RemoteException {
+
+                }
+            });
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
     private String getDate() {
         Date c = Calendar.getInstance().getTime();
@@ -189,8 +232,8 @@ public class BaseActivity extends AppCompatActivity {
         return df.format(c);
     }
 
-    public int getMerchantId() {
-        return Hawk.get("access_token", 0);
+    public String getMerchantId() {
+        return Hawk.get("access_token", "0");
     }
 
     private void showPrintMerchantCopyAlert(String voucher, String trxnId, double total, String datetime) {
@@ -264,9 +307,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public boolean isTokenRequired() {
-        int s = Hawk.get("access_token", 0);
-        if (s == 0)
+        String s = Hawk.get("access_token", "empty");
+        if (s.equals("empty")) {
             return true;
-        return false;
+        } else {
+            return false;
+        }
     }
 }
