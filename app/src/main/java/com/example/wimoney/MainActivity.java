@@ -1,10 +1,5 @@
 package com.example.wimoney;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -25,9 +20,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.blikoon.qrcodescanner.QrCodeActivity;
+import com.example.wimoney.Amount;
+import com.example.wimoney.BaseActivity;
+import com.example.wimoney.MerchantLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -35,9 +37,11 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener {
+
     private static final int BALANCE_CHECK = 101;
     private static boolean permissionGranted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +55,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         ImageButton settings = findViewById(R.id.settings);
         settings.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -60,7 +62,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         checkPermission();
         super.onStart();
     }
-
 
     @Override
     public void onClick(View view) {
@@ -74,6 +75,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             finish();
             return;
         }
+
         switch (view.getId()) {
             case R.id.emailEnter:
                 Intent i = new Intent(MainActivity.this, QrCodeActivity.class);
@@ -91,10 +93,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
 
         }
-
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -141,7 +140,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             // permissions this app might request.
         }
     }
-
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -223,6 +221,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         NetworkRequest.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
+
 
     private void showBalanceAlert(String name, double balance) {
         View v = getLayoutInflater().inflate(R.layout.balance_check_layout, null);
