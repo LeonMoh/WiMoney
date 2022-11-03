@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:keyboard="http://schemas.android.com/apk/res-auto"
+    xmlns:numpad="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".Amount">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/back"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Amount"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="36sp" />
+
+
+        <EditText
+            android:id="@+id/amount"
+            android:layout_width="240dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:focusable="false"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/design_default_color_primary"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="minimum: $1.00"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+
+        <com.davidmiguel.numberkeyboard.NumberKeyboard
+            android:id="@+id/keypad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:keyPadding="5dp"
+            app:leftAuxBtnBackground="@drawable/keypad_circle_dp"
+            keyboard:keyHeight="80dp"
+            keyboard:keyWidth="80dp"
+            keyboard:keyboardType="custom"
+            keyboard:leftAuxBtnIcon="@drawable/decimal_point"
+            keyboard:numberKeyBackground="@drawable/keypad_circle_dp"
+            keyboard:numberKeyTextColor="@android:color/white"
+            keyboard:rightAuxBtnIcon="@drawable/ic_backspace" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/holo_green_light"
+        android:drawableRight="@drawable/ic_arrow_forward_24"
+        android:elevation="10dp"
+        android:text="next"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="false"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/holo_red_light"
+        android:drawableLeft="@drawable/ic_arrow_back_24"
+        android:elevation="10dp"
+        android:text="back "
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".MerchantLogin">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="false"
+        android:focusableInTouchMode="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="Merchant Login"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+            android:id="@+id/text_field_boxes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:helperTextColor="@android:color/white"
+            app:labelText="Email"
+            app:panelBackgroundColor="@color/colorPrimaryDark"
+            app:primaryColor="@android:color/white"
+            app:secondaryColor="@android:color/white">
+
+            <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="textWebEmailAddress"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+        <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+            android:id="@+id/text_field_boxes2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:helperTextColor="@android:color/white"
+            app:labelText="Password"
+            app:panelBackgroundColor="@color/colorPrimaryDark"
+            app:primaryColor="@android:color/white"
+            app:secondaryColor="@android:color/white">
+
+            <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="false" />
+
+        </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+        <com.example.myloadingbutton.MyLoadingButton
+            android:id="@+id/login_button"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:mlb_backgroundColor="@color/colorPrimaryDark"
+            app:mlb_label="Login" />
+
+        <com.example.myloadingbutton.MyLoadingButton
+            android:id="@+id/register"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            app:mlb_backgroundColor="@color/colorAccent"
+            app:mlb_label="Sign Up" />
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="false"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/holo_red_light"
+        android:drawableLeft="@drawable/ic_arrow_back_24"
+        android:elevation="10dp"
+        android:text="back "
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+</RelativeLayout>

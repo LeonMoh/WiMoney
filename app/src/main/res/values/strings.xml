@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">WiMoney</string>
+
+<!--    <string name="balance_check">https://wipayfinancial.com/pfborough/api/check_voucher_balance?voucher=%1$s</string>-->
+    <string name="balance_check">http://10.0.0.67:80/grants/api/check_voucher_balance?voucher=%1$s</string>
+<!--    <string name="voucher_data">https://wipayfinancial.com/pfborough/api/get_user_info_from_vouhcer?voucher=%1$s</string>-->
+    <string name="voucher_data">http://10.0.0.67:80/grants/api/get_user_info_from_vouhcer?voucher=%1$s</string>
+<!--<string name="sale">http://192.168.100.80/wipaycore/v1/api/voucher/sale</string>-->
+    <string name="sale">http://10.0.0.67:80/grants/api/voucher_sale?merchant_id=%1$d</string>
+<!--    <string name="settlement_report">https://wipayfinancial.com/pfborough/api/settlement/report?merchant_id=%1$d</string>-->
+    <string name="settlement_report">http://10.0.0.67:80/grants/api/settlement/report?merchant_id=%1$d</string>
+<!--    <string name="token">https://wipayfinancial.com/pfborough/api/get/token</string>-->
+    <string name="token">http://10.0.0.67:80/grants/api/get/token</string>
+<!--    <string name="transaction_history">https://wipayfinancial.com/pfborough/api/get_transaction_log?merchant_id=%1$d&amp;page_number=%2$d</string>-->
+    <string name="transaction_history">http://10.0.0.67:80/grants/api/get_transaction_log?merchant_id=%1$d&amp;page_number=%2$d</string>
+<!--    <string name="signup">https://wipayfinancial.com/pfborough/api/signup</string>-->
+    <string name="signup">http://10.0.0.67:80/grants/api/signup</string>
+<!--    <string name="login">https://wipayfinancial.com/pfborough/api/login</string>-->
+    <string name="login">http://10.0.0.67:80/grants/api/login</string>
+
+
+    <string name="ok">OK</string>
+    <string name="balance_dialog_message">Name: %1$s\nBalance: $%2$.2f</string>
+    <string name="name">Name: %1$s</string>
+    <string name="balance">Balance: $%1$.2f</string>
+
+    <string-array name="banks">
+        <item>First Caribbean</item>
+        <item>First Citizens Bank</item>
+        <item>Scotiabank Trinidad</item>
+        <item>Republic Bank LTD</item>
+        <item>JMMB Trinidad</item>
+        <item>RBC Royal Bank Trinidad and Tobago</item>
+        <item>Citibank</item>
+        <item>Bank of Baroda</item>
+    </string-array>
+</resources>

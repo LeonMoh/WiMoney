@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
+        app:srcCompat="@drawable/ic_info" />
+
+    <TextView
+        android:id="@+id/index"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/emailEnter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/ok"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="OK"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            fbutton:buttonColor="@color/colorPrimaryDark"
+            fbutton:shadowColor="@color/colorPrimaryDark"
+            fbutton:shadowHeight="5dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

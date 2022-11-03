@@ -1,0 +1,26 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        jcenter()
+
+    }
+}
+
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        jcenter()
+
+
+    }
+}
+
+rootProject.name = "WiMoney"
+include ':app'
+include ':sample', ':lib'
+
