@@ -20,9 +20,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.blikoon.qrcodescanner.QrCodeActivity;
-import com.example.wimoney.Amount;
-import com.example.wimoney.BaseActivity;
-import com.example.wimoney.MerchantLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +32,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -100,7 +96,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) {
-            Timber.e("COULD NOT GET A GOOD RESULT.");
             Toast.makeText(this, "Could not get QR code result", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -109,7 +104,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 return;
             //Getting the passed result
             String voucher = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
-            Timber.e("Voucher number: " + voucher);
 
             checkBalanceRequest(voucher);
 
@@ -118,7 +112,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    @Override
+
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
@@ -166,6 +160,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         HashMap<String, String> params = new HashMap<>();
         params.put("voucher", voucher);
         params.put("amount", String.valueOf(0));
+        Log.e("ERRdHashMap", params.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getString(R.string.voucher_data), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
@@ -178,7 +173,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     JSONObject receiver = data.getJSONObject("receiver");
                     String current_value = data.getString("current_value");
                     showBalanceAlert(receiver.getString("fname") + " " + receiver.getString("lname"), Double.parseDouble(current_value));
-                } catch (JSONException e) {
+                }  catch (JSONException e) {
                     e.printStackTrace();
                 }
             }

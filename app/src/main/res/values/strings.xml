@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">WiMoney</string>
     <!--local endpoints-->
+
+<!--    <string name="settlement_report">http://192.168.100.249:80/grants/api/merchant/settlement</string>-->
+<!--    <string name="transaction_history">http://192.168.100.249:80/grants/api/merchant/transactions</string>-->
+<!--    <string name="voucher_data">http://192.168.100.249:80/grants/api/voucher/user</string>-->
+<!--    <string name="sale">http://192.168.100.249:80/grants/api/voucher/redeem/</string>-->
+<!--    <string name="signup">http://192.168.100.249:80/grants/api/register</string>-->
+<!--    <string name="login">http://192.168.100.249:80/grants/api/login</string>-->
+<!--    <string name="store_profile_pic">http://192.168.100.249:80/grants/api/receiver/profile/image</string>-->
+
     <string name="settlement_report">http://10.0.0.67/grants/api/merchant/settlement</string>
     <string name="transaction_history">http://10.0.0.67/grants/api/merchant/transactions</string>
     <string name="voucher_data">http://10.0.0.67/grants/api/voucher/user</string>

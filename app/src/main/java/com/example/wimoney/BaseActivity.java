@@ -37,7 +37,6 @@ import java.util.Locale;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -63,7 +62,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        Timber.plant(new Timber.DebugTree());
 
         Hawk.init(this).build();
 

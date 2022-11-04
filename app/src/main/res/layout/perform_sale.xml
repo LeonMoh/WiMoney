@@ -38,19 +38,23 @@
         android:gravity="right"
         android:orientation="horizontal">
 
-        <Button
+        <info.hoang8f.widget.FButton
             android:id="@+id/cancel"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_marginRight="30dp"
-            android:background="@color/A400red"
-            android:backgroundTint="@color/A400red"
+            android:background="@color/red"
+            android:backgroundTint="@color/red"
             android:text="@android:string/cancel"
             android:textColor="@android:color/white"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            app:buttonColor="@color/red"
+            fbutton:buttonColor="@color/red"
+            fbutton:shadowColor="@color/red"
+            fbutton:shadowHeight="5dp" />
 
-        <Button
+        <info.hoang8f.widget.FButton
             android:id="@+id/type"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
@@ -59,16 +63,22 @@
             android:backgroundTint="@color/colorAccent"
             android:text="enter"
             android:textColor="@android:color/white"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            fbutton:buttonColor="@color/colorPrimaryDark"
+            fbutton:shadowColor="@color/colorPrimaryDark"
+            fbutton:shadowHeight="5dp" />
 
-        <Button
+        <info.hoang8f.widget.FButton
             android:id="@+id/scan"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="scan "
             android:textColor="@android:color/white"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            fbutton:buttonColor="@color/colorPrimaryDark"
+            fbutton:shadowColor="@color/colorPrimaryDark"
+            fbutton:shadowHeight="5dp" />
 
     </LinearLayout>
 </LinearLayout>

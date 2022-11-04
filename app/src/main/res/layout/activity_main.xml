@@ -21,28 +21,34 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="220dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="60dp"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/progressive" />
 
-        <Button
+        <info.hoang8f.widget.FButton
             android:id="@+id/emailEnter"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="check balance"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            />
+            fbutton:buttonColor="@color/colorPrimaryDark"
+            fbutton:shadowColor="@color/colorPrimaryDark"
+            fbutton:shadowHeight="5dp" />
 
-        <Button
+        <info.hoang8f.widget.FButton
             android:id="@+id/sale"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
             android:text="sale "
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            />
+            fbutton:buttonColor="@color/colorPrimaryDark"
+            fbutton:shadowColor="@color/colorPrimaryDark"
+            fbutton:shadowHeight="5dp" />
 
 
     </LinearLayout>

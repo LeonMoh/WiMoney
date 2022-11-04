@@ -25,7 +25,6 @@ import java.util.Map;
 
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
-import timber.log.Timber;
 
 public class MerchantLogin extends BaseActivity implements MyLoadingButton.MyLoadingButtonClick {
 
@@ -147,7 +146,6 @@ public class MerchantLogin extends BaseActivity implements MyLoadingButton.MyLoa
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getString(R.string.login), new JSONObject(params), response -> {
             try {
-                Timber.e(response.toString());
                 if (response.getString("status").equals("error")) {
                     Toast.makeText(this, response.getString("msg"), Toast.LENGTH_SHORT).show();
                     myLoadingButton.showNormalButton();

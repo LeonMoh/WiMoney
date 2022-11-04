@@ -57,8 +57,6 @@ import java.util.Map;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 
-import timber.log.Timber;
-
 public class Amount extends BaseActivity implements View.OnClickListener {
 
     private StringBuilder stringBuilder;
@@ -80,6 +78,7 @@ public class Amount extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amount);
+
         EditText amount = findViewById(R.id.amount);
 
         Button back = findViewById(R.id.back);
@@ -103,6 +102,8 @@ public class Amount extends BaseActivity implements View.OnClickListener {
             amount.setError(null);
             Hawk.put("amount", amt);
             showAlertConfirmation(stringBuilder.toString());
+//            Toast.makeText(this, "Amount Entered: ".concat(stringBuilder.toString()), Toast.LENGTH_SHORT).show();
+
         });
 
         stringBuilder = new StringBuilder();
@@ -147,11 +148,8 @@ public class Amount extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Timber.e("COULD NOT GET A GOOD RESULT: " + resultCode);
-        Log.e("ERRdResult", String.valueOf(resultCode));
 
         if (resultCode != Activity.RESULT_OK) {
-            Log.e("ERRdResult1", String.valueOf(resultCode));
             Toast.makeText(this, "Could not get QR code result", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -160,7 +158,7 @@ public class Amount extends BaseActivity implements View.OnClickListener {
                 return;
             //Getting the passed result
             user_voucher = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
-            Log.e("ERRdUSERVOUCHER", user_voucher);
+
 
             RelativeLayout main = findViewById(R.id.main);
             showLoadingPopup(main);
@@ -171,18 +169,40 @@ public class Amount extends BaseActivity implements View.OnClickListener {
             base64Image = encodeImage(currentPhotoPath);
 
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            Log.e("ERRBitMap", imageBitmap.toString());
 //                 Log.d("filePath", String.valueOf(filePath));
 //                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), picUri);
             showVoucherData(imageBitmap, user_index, user_email, user_phone);
-            Log.e("ERRUserIndex", user_index);
-            Log.e("ERRUserEmail", user_email);
-            Log.e("ERRPhone", user_phone);
 
         }
 
     }
 
+//    private void store_image() {
+//        HashMap<String, String> params = new HashMap<>();
+//        params.put("receipt_image", base64Image);
+//
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getString(R.string.sale, getMerchantId()), new JSONObject(params), response -> {
+//            try {
+//                if (response.getString("status").equals("success")) {
+//                    new Handler().postDelayed(this::closeLoadingPopup, 2500);
+//                } else {
+//                    closeLoadingPopup();
+//                    toast(response.getString("msg"));
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                closeLoadingPopup();
+//                toast(e.toString());
+//            }
+//        }, error -> {
+//            closeLoadingPopup();
+//            toast(error.toString());
+//        });
+//
+//        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(0, 0, 0));
+//
+//        NetworkRequest.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+//    }
 
     private String encodeImage(String path) {
         File imagefile = new File(path);
@@ -203,7 +223,8 @@ public class Amount extends BaseActivity implements View.OnClickListener {
     }
 
     private void showAlertConfirmation(String amt) {
-
+//        Toast.makeText(this, "Amount Entered: ".concat(stringBuilder.toString()), Toast.LENGTH_SHORT).show();
+Log.e("ErrdShowConfirmationAMT", amt);
         View v = getLayoutInflater().inflate(R.layout.perform_sale, null);
 
         TextView msg = v.findViewById(R.id.msg);
@@ -212,6 +233,17 @@ public class Amount extends BaseActivity implements View.OnClickListener {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(v);
 
+//        builder.setMessage("You are about to perform a transaction for $" + amt + ".\n\nProceed to scanning voucher QR code?").setTitle("Confirm Amount");
+
+//        builder.setPositiveButton("Confirm", (dialog, id) -> {
+//            Intent i = new Intent(this, QrCodeActivity.class);
+//            i.putExtra("amount", amt);
+//            startActivityForResult(i, SALE);
+//        });
+//        builder.setNegativeButton("Cancel", (dialog, id) -> {
+//            dialog.dismiss();
+//            showFullscreen();
+//        });
 
         AlertDialog dialog = builder.create();
 
@@ -222,12 +254,12 @@ public class Amount extends BaseActivity implements View.OnClickListener {
         });
 
         Button scan = v.findViewById(R.id.scan);
-        Log.e("ERRAmount", amt);
         scan.setOnClickListener(view -> {
             dialog.dismiss();
-            Intent i = new Intent(this, QrCodeActivity.class);
+            Intent i = new Intent(Amount.this, QrCodeActivity.class);
             i.putExtra("amount", amt);
-            Log.e("ERRAmount", amt);
+            Log.e("ERRdAMT", amt);
+            Log.e("ERRdAMTQR", String.valueOf(SALE));
             startActivityForResult(i, SALE);
         });
 
@@ -251,6 +283,17 @@ public class Amount extends BaseActivity implements View.OnClickListener {
         builder.setTitle("Enter voucher number");
         builder.setView(v);
 
+//        builder.setMessage("You are about to perform a transaction for $" + amt + ".\n\nProceed to scanning voucher QR code?").setTitle("Confirm Amount");
+
+//        builder.setPositiveButton("Confirm", (dialog, id) -> {
+//            Intent i = new Intent(this, QrCodeActivity.class);
+//            i.putExtra("amount", amt);
+//            startActivityForResult(i, SALE);
+//        });
+//        builder.setNegativeButton("Cancel", (dialog, id) -> {
+//            dialog.dismiss();
+//            showFullscreen();
+//        });
 
         AlertDialog dialog = builder.create();
 
@@ -290,7 +333,6 @@ public class Amount extends BaseActivity implements View.OnClickListener {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
-        Timber.e("current photo path " + currentPhotoPath);
         return image;
     }
 
@@ -317,54 +359,43 @@ public class Amount extends BaseActivity implements View.OnClickListener {
         HashMap<String, String> params = new HashMap<>();
         params.put("voucher", user_voucher);
         params.put("amount", String.valueOf(0));
-
-        Log.e("ERRVoucher", user_voucher);
+        Log.e("ERRdHashMap", params.toString());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getString(R.string.voucher_data), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 closeLoadingPopup();
-                Log.e("CheckBalance Response", response.toString());
+//                Log.d("CheckBalance Response", response.toString());
+//                Log.e("ERRdCheckBalance", response.toString());
                 try {
                     JSONObject data = null;
                     data = response.getJSONObject("data");
-                    JSONObject receiver = data.getJSONObject("receiver");
-                    JSONObject user = receiver.getJSONObject("user");
-                    Log.e("ERRdDATA", data.toString());
-                    Log.e("ERRdReciever", receiver.toString());
-                    Log.e("ERRdUser", user.toString());
+//                    Log.e("ERRdDATA1", data.toString());
 
+                    JSONObject receiver = data.getJSONObject("receiver");
+//                    Log.e("ERRdDATA2", data.toString());
+
+                    JSONObject user = receiver.getJSONObject("user");
+//                    Log.e("ERRdDATA3", data.toString());
 
                     String current_value = data.getString("current_value");
-                    Log.e("ERRdCurrentDATA", data.toString());
+//                    Log.e("ERRdDATA4", data.toString());
 
 
                     user_id = receiver.getString("id");
                     user_email = user.getString("email");
-                    user_index = receiver.getString("index_number");
+                    user_index = receiver.getString("index");
                     user_phone = receiver.getString("phone");
-                    user_image = receiver.getString("image");
+//                    user_image = receiver.getString("image");
 
 //                    toast(user_image);
-//                    Bitmap upload_image = convertToBitmap(getDrawable(R.drawable.upload_img), 40, 40);
-                    if (!user_image.equals("null")) {
-                        try {
-                            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(user_image).getContent());
-                            showVoucherData(bitmap, user_index, user_email, user_phone);
-                        } catch (MalformedURLException e) {
-                            toast(e.toString());
-                            e.printStackTrace();
-                            Log.e("ERRdErrorE", e.toString());
-                        } catch (IOException e) {
-                            toast(e.toString());
-                            Log.e("ERRdErrorE2", e.toString());
-                            e.printStackTrace();
-                        }
+//                    Bitmap upload_image = convertToBitmap(getDrawable(R.drawable.u    pload_img), 40, 40);
 
-                    } else {
                         showVoucherData(user_index, user_email, user_phone);
-                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.e("ERRdPrintStack", e.toString());
+
                 }
             }
 
@@ -381,7 +412,6 @@ public class Amount extends BaseActivity implements View.OnClickListener {
                         JSONObject response = new JSONObject(body);
                         body = response.getString("message");
                         toast(body);
-                        Log.e("ERRdNetBody", body.toString());
                         if (body.contains("Unauthenticated")) {
                             Intent i = new Intent(getApplicationContext(), MerchantLogin.class);
                             startActivity(i);
@@ -444,7 +474,6 @@ public class Amount extends BaseActivity implements View.OnClickListener {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(v);
-
 
         AlertDialog dialog = builder.create();
         email_tv.addTextChangedListener(new TextWatcher() {
@@ -527,6 +556,9 @@ public class Amount extends BaseActivity implements View.OnClickListener {
     private void showVoucherData(String index, String email, String phone) {
 
         View v = getLayoutInflater().inflate(R.layout.voucher_data, null);
+
+//        byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
+//        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
         EditText index_tv = v.findViewById(R.id.index);
 
@@ -673,7 +705,6 @@ public class Amount extends BaseActivity implements View.OnClickListener {
                         JSONObject response = new JSONObject(body);
                         body = response.getString("msg");
                         toast(body);
-                        Log.e("ERRdNetBody2", body.toString());
                         if (body.contains("Unauthenticated")) {
                             Intent i = new Intent(getApplicationContext(), MerchantLogin.class);
                             startActivity(i);

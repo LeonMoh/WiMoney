@@ -8,4 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">@android:color/holo_red_light</color>
+    <color name="colorPrimaryLight">#367bcd</color>
+    <color name="popup_background">#CC000000</color>
+    <color name="colorPrimary">#367bcd</color>
+
+
+
 </resources>
