@@ -2,6 +2,7 @@ package com.example.wimoney;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,8 +16,8 @@ import android.widget.Toast;
 public class RegistrationActivity extends AppCompatActivity {
     String companyName, ownerName, nameInBank, accNumber, pw, cp, email;
     EditText cName, oName, aNumber, nBank, password, confirm, e;
-    Button btRegistration;
-    public ImageView ivLogo;
+    Button btRegistration, btBack;
+    @SuppressLint({"MissingInflatedId", "CutPasteId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +30,8 @@ public class RegistrationActivity extends AppCompatActivity {
          password = findViewById(R.id.password);
          confirm = findViewById(R.id.confirmPassword);
          e = findViewById(R.id.email);
-        ivLogo = findViewById(R.id.logo);
-        btRegistration = findViewById(R.id.btRegister);
+        btRegistration = findViewById(R.id.register);
+        btBack = findViewById(R.id.back);
 
         btRegistration.setOnClickListener(new View.OnClickListener() {
             @Override

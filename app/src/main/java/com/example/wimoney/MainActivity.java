@@ -51,6 +51,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         ImageButton settings = findViewById(R.id.settings);
         settings.setOnClickListener(this);
+
+        ImageButton transaction_history = findViewById(R.id.transaction_history);
+        transaction_history.setOnClickListener(this);
     }
 
     @Override
@@ -85,6 +88,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.settings:
                 Intent settings = new Intent(this, MerchantLogin.class);
                 startActivity(settings);
+                finish();
+                break;
+            case R.id.transaction_history:
+                Intent transaction_history = new Intent(this, TransactionHistory.class);
+                startActivity(transaction_history);
                 finish();
                 break;
 
@@ -182,7 +190,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
                 closeLoadingPopup();
 
-//                String statusCode = String.valueOf(error.networkResponse.statusCode);
+//              String statusCode = String.valueOf(error.networkResponse.statusCode);
                 String body;
                 //get response body and parse with appropriate encoding
                 if (error.networkResponse.data != null) {

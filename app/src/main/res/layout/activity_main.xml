@@ -59,4 +59,9 @@
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         fbutton:srcCompat="@drawable/ic_settings" />
+    <ImageButton
+        android:id="@+id/transaction_history"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        fbutton:srcCompat="@drawable/ic_info" />
 </RelativeLayout>
